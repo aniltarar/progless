@@ -3,11 +3,13 @@ import useCategory from "../../services/useCategory";
 import Card from "../../components/Cards/Card";
 import PopUp from "../../components/PopUps/PopUp";
 import CategoryPopUp from "../../components/PopUps/CategoryPopUp";
+import useAllData from "../../services/useAllData";
 
 function CategoryPage() {
   const { categories, getCategory } = useCategory(); // useCategory servisinin fonksiyonlarını çekiliyor
   const [isCategoryEdit, setIsCategoryEdit] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState()
+  const { allData } = useAllData();
 
   useEffect(() => {
     getCategory();
@@ -38,7 +40,7 @@ function CategoryPage() {
               <div key={category.id} className="col-sm-6">
                 <Card
                   cardTitle={category.name}
-                  cardContent={"Card Content"}
+                  cardContent={`Görev sayısı: ${allData?.tasks.filter(item => item.categoryId == category.id).length}`}
                   className={"pl-hided"}
                   topRight={
                     <button
