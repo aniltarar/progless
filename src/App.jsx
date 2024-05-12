@@ -5,6 +5,7 @@ import HomeDashboard from "./pages/HomeDashboard/HomeDashboard";
 import Login from "./pages/AuthPage/Login";
 import Register from "./pages/AuthPage/Register";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import TaskPage from "./pages/TaskPage/TaskPage";
 
 function App() {
   return (
@@ -13,10 +14,11 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
+          
           <Route path="/" element={<BaseLayout />}>
             <Route index={true} element={<HomeDashboard />} />
             <Route path="categories" element={<CategoryPage />} />
+            <Route path="tasks" element={<TaskPage />} />
           </Route>
         </Routes>
       </Router>

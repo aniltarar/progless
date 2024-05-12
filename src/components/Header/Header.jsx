@@ -15,7 +15,7 @@ function Header() {
       <div className="d-flex align-items-center gap-5">
         <RouterButton text={"Ana Sayfa"} url={"/"} />
         <RouterButton text={"Kategori"} url={"/categories"} />
-        <RouterButton text={"Görevler"} />
+        <RouterButton text={"Görevler"} url={"/tasks"} />
         <RouterButton text={"Süreç Takibi"} />
       </div>
 

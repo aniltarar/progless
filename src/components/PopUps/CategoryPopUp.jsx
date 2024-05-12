@@ -1,28 +1,39 @@
 import React, { useEffect, useState } from "react";
 import PopUp from "./PopUp";
 import useCategory from "../../services/useCategory";
+import EmojiPicker, { Emoji } from "emoji-picker-react";
 
 function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
   const { addCategory, editCategory, deleteCategory } = useCategory();
   const [categoryName, setCategoryName] = useState(categoryInfo?.name ?? "");
   const [categoryColor, setCategoryColor] = useState(
-    (categoryInfo && (categoryInfo?.colorHex == "" ? "#000000" : categoryInfo?.colorHex)) ?? "#000000"
+    (categoryInfo &&
+      (categoryInfo?.colorHex == "" ? "#000000" : categoryInfo?.colorHex)) ??
+      "#000000"
   );
-  const [categoryImageId, setCategoryImageId] = useState(
-    categoryInfo?.imageId ?? -1
+  const [categoryImageCode, setCategoryImageCode] = useState(
+    categoryInfo?.imageCode ?? null
   );
+  const [pickerVisible, setPickerVisible] = useState(false);
+  const [currentEmoji, setCurrentEmoji] = useState(null);
 
   useEffect(() => {
-    setCategoryName(categoryInfo?.name ?? "")
-    setCategoryColor((categoryInfo && (categoryInfo?.colorHex == "" ? "#000000" : categoryInfo?.colorHex)) ?? "#000000")
-    setCategoryImageId(categoryInfo?.imageId ?? -1)
-  }, [categoryInfo])
+    setCategoryName(categoryInfo?.name ?? "");
+    setCategoryColor(
+      (categoryInfo &&
+        (categoryInfo?.colorHex == "" ? "#000000" : categoryInfo?.colorHex)) ??
+        "#000000"
+    );
+    setCategoryImageCode(categoryInfo?.imageCode ?? null);
+  }, [categoryInfo]);
 
   function clearCategoryStates() {
-    setCategoryName("")
-    setCategoryColor("#000000")
-    setCategoryImageId(-1)
-    setCategoryInfo(null)
+    setCategoryName("");
+    setCategoryColor("#000000");
+    setCategoryImageCode(null);
+    setCategoryInfo(null);
+    setCurrentEmoji(null);
+    setPickerVisible(false)
   }
 
   return (
@@ -65,14 +76,26 @@ function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
             Kategori ikonu
           </label>
           <div className="col-md-3">
-            <input
-              type="text"
-              className="form-control"
-              id="categoryIcon"
-              value={categoryImageId}
-              onChange={(e) => {
-                setCategoryImageId(e.target.value);
+            <button
+              className={`btn ${currentEmoji == null ? "btn-primary" : ""}`}
+              onClick={() => {
+                setPickerVisible(!pickerVisible);
               }}
+            >
+              {(currentEmoji && <Emoji unified={currentEmoji.unified} />) ?? "Emoji Seciniz"}
+            </button>
+          </div>
+
+          <div className="col-12">
+            <EmojiPicker
+              className="w-100"
+              height={"400px"}
+              previewPosition="none"
+              onEmojiClick={(e) => {
+                setCurrentEmoji(e);
+                setCategoryImageCode(e.unified);
+              }}
+              open={pickerVisible}
             />
           </div>
         </div>
@@ -97,16 +120,18 @@ function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
                   categoryInfo.id,
                   categoryName,
                   categoryColor,
-                  categoryImageId
+                  categoryImageCode
                 ).then(() => {
                   getCategory();
-                })
+                });
               } else {
-                addCategory(categoryName, categoryColor, categoryImageId).then(() => {
-                  getCategory();
-                })
+                addCategory(categoryName, categoryColor, categoryImageCode).then(
+                  () => {
+                    getCategory();
+                  }
+                );
               }
-              clearCategoryStates()
+              clearCategoryStates();
             }}
           >
             Onayla
@@ -121,7 +146,7 @@ function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
               onClick={() => {
                 deleteCategory(categoryInfo.id).then(() => {
                   getCategory();
-                })
+                });
                 clearCategoryStates();
               }}
             >

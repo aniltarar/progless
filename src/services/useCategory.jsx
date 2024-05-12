@@ -18,11 +18,11 @@ function useCategory() {
     /** Yeni kategori eklemeyi sağlar
      * @param {string} name Kategori adı
      * @param {string} colorHex Kategori renk id'si
-     * @param {number} imageId Kategori ikon id'si
+     * @param {string} imageCode Kategori ikon id'si
      * @returns Eklenen kategori verileri
      */
-    const addCategory = async (name, colorHex, imageId) => {
-        let _categoryData = (await requestUtil().post(`users/${userId}/categories`, { name: name, colorHex: colorHex, imageId: parseInt(imageId) })).data;
+    const addCategory = async (name, colorHex, imageCode) => {
+        let _categoryData = (await requestUtil().post(`users/${userId}/categories`, { name: name, colorHex: colorHex, imageCode: imageCode })).data;
         await getCategory()
         return _categoryData
     };
@@ -31,11 +31,11 @@ function useCategory() {
      * @param {number} categoryId Kategori id'si
      * @param {string} name Kategori adı
      * @param {string} colorHex Kategori renk id'si
-     * @param {number} imageId Kategori ikon id'si
+     * @param {string} imageCode Kategori ikon id'si
      * @returns Düzenlenen kategorinin son halini döndürür
      */
-    const editCategory = async (categoryId, name, colorHex, imageId) => {
-        let _categoryData = (await requestUtil().put(`users/${userId}/categories/${categoryId}`, { name: name, colorHex: colorHex, imageId: parseInt(imageId) })).data;
+    const editCategory = async (categoryId, name, colorHex, imageCode) => {
+        let _categoryData = (await requestUtil().put(`users/${userId}/categories/${categoryId}`, { name: name, colorHex: colorHex, imageCode: imageCode })).data;
         await getCategory()
         return _categoryData
     };

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import useCategory from "../../services/useCategory";
 import Card from "../../components/Cards/Card";
-import PopUp from "../../components/PopUps/PopUp";
 import CategoryPopUp from "../../components/PopUps/CategoryPopUp";
 import useAllData from "../../services/useAllData";
+import EmojiPicker, { Emoji } from "emoji-picker-react";
+import { FaPen } from "react-icons/fa";
 
 function CategoryPage() {
   const { categories, getCategory } = useCategory(); // useCategory servisinin fonksiyonlarını çekiliyor
   const [isCategoryEdit, setIsCategoryEdit] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState()
+  const [selectedCategory, setSelectedCategory] = useState();
   const { allData } = useAllData();
 
   useEffect(() => {
@@ -19,7 +20,12 @@ function CategoryPage() {
 
   return (
     <>
-      <CategoryPopUp categoryInfo={selectedCategory} setCategoryInfo={setSelectedCategory} isEdit={isCategoryEdit} getCategory={getCategory} />
+      <CategoryPopUp
+        categoryInfo={selectedCategory}
+        setCategoryInfo={setSelectedCategory}
+        isEdit={isCategoryEdit}
+        getCategory={getCategory}
+      />
 
       <div className="container mt-3">
         <button
@@ -28,7 +34,7 @@ function CategoryPage() {
           data-bs-toggle="modal"
           data-bs-target="#pl-PopUp"
           onClick={() => {
-            setIsCategoryEdit(false)
+            setIsCategoryEdit(false);
           }}
         >
           + Ekle
@@ -39,23 +45,29 @@ function CategoryPage() {
             return (
               <div key={category.id} className="col-sm-6">
                 <Card
-                  cardTitle={category.name}
-                  cardContent={`Görev sayısı: ${allData?.tasks.filter(item => item.categoryId == category.id).length}`}
+                  href={`/tasks?categoryId=${category.id}`}
+                  cardTitle={<div className="d-flex align-items-center gap-2">{category.name} {category.imageCode && <Emoji size={25} unified={`${category.imageCode}`} />}</div>}
+                  cardContent={`Görev sayısı: ${
+                    allData?.tasks.filter(
+                      (item) => item.categoryId == category.id
+                    ).length
+                  }`}
                   className={"pl-hided"}
                   topRight={
                     <button
-                      className="btn btn-sm btn-warning pl-hided"
+                      className="btn btn-sm btn-warning pl-hided d-flex gap-2 align-items-center"
                       data-bs-toggle="modal"
                       data-bs-target="#pl-PopUp"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSelectedCategory(category);
                         setIsCategoryEdit(true);
                       }}
                     >
-                      düzenle
+                      Düzenle <FaPen />
                     </button>
                   }
-                />
+                ></Card>
               </div>
             );
           })}
