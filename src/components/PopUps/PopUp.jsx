@@ -8,25 +8,14 @@ function PopUp({ children }) {
         className="modal fade"
         id="pl-PopUp"
         data-bs-keyboard="false"
+        data-bs-backdrop="static"
         tabIndex="-1"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: "50%" }}>
           <div className="modal-content">
-            <div className="modal-body">
+            <div className="modal-body p-5">
               {children}
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" className="btn btn-primary">
-                Understood
-              </button>
             </div>
           </div>
         </div>
