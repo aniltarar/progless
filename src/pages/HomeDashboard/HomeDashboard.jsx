@@ -12,9 +12,7 @@ function HomeDashboard() {
 
   return (
     <>
-      {/* <input type="color" onChange={(value) => {console.log(value.target.value);}} /> */}
-
-      <div className="container pt-3">
+      <div className="container">
         <div className="row">
           <div className="col-sm-8">
             <div className="display-6 text-center">Görevler</div>

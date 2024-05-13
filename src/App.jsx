@@ -6,6 +6,7 @@ import Login from "./pages/AuthPage/Login";
 import Register from "./pages/AuthPage/Register";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import TaskPage from "./pages/TaskPage/TaskPage";
+import DashboardPage from "./pages/DashboardPage/DashboardPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route index={true} element={<HomeDashboard />} />
             <Route path="categories" element={<CategoryPage />} />
             <Route path="tasks" element={<TaskPage />} />
+            <Route  path="dashboard" element={<DashboardPage />} />
           </Route>
         </Routes>
       </Router>

@@ -1,7 +1,7 @@
 .pl-card:hover {
     background-color: #d6d6d6;
     cursor: pointer;
-    box-shadow: 0px 2px 5px #ccc;
+    box-shadow: 0px 0px 5px #ccc;
 }
 
 .pl-card.pl-hided .pl-card-topRight {

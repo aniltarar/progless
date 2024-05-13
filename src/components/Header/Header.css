@@ -6,16 +6,16 @@
     --pl-theme-button-bg-hover: #bbb;
 }
 
-body, body * {
+body, body *:not(.base-Popper-root) {
     transition: 100ms ease;
 }
 
-body.theme-dark, body.theme-dark .pl-card, body.theme-dark .modal *:not(.modal-dialog, .pl-block-mode) {
-    --pl-bg-color: #111;
+body.theme-dark, body.theme-dark .pl-card, body.theme-dark .modal *:not(.modal-dialog, .pl-block-mode), body.theme-dark *:not(.pl-block-mode, .pl-block-mode *) {
+    --pl-bg-color: hsl(210, 35%, 9%) /*#333*/;
     --pl-text-color: #FFF;
     background-color: var(--pl-bg-color) !important;
     color: var(--pl-text-color) !important;
-    border-color: #FFF !important;
+    border-color: #FFF;
 
     --pl-theme-button-bg: #bbb;
     --pl-theme-button-bg-hover: #111;

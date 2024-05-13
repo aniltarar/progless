@@ -40,7 +40,7 @@ function TaskPage() {
         categoryInfo={selectedTaskCategory}
       />
 
-      <div className="container pt-3">
+      <div className="container">
         <div className="d-flex align-items-center gap-3">
           <div>
             <h1 className="display-6">Görevlerim</h1>

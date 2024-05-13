@@ -14,7 +14,7 @@ function Header() {
   }, [theme]);
 
   return (
-    <div className="headerDiv d-flex align-items-center justify-content-around w-100">
+    <div className="headerDiv d-flex align-items-center justify-content-around w-100 mb-3">
       <div>
         <a href="/">
           <img id="logo" src="src/assets/images/logo.png" alt="" />
@@ -25,7 +25,7 @@ function Header() {
         <RouterButton text={"Ana Sayfa"} url={"/"} />
         <RouterButton text={"Kategori"} url={"/categories"} />
         <RouterButton text={"Görevler"} url={"/tasks"} />
-        <RouterButton text={"Süreç Takibi"} />
+        <RouterButton text={"Süreç Takibi"} url={'/dashboard'} />
       </div>
 
       <div className="d-flex justify-content-around align-items-center gap-3">
@@ -33,11 +33,9 @@ function Header() {
           {JSON.parse(localStorage.getItem("user"))?.username}
         </span>
 
-        {/* <button className="btn btn-outline-secondary">tema</button> */}
-
         <button
           className={
-            "btn btn-outline-secondary rounded-circle d-flex justify-content-center align-items-center me-2 theme-button"
+            "btn btn-outline-secondary rounded-circle d-flex justify-content-center align-items-center me-2 theme-button pl-block-mode"
           }
           style={{ width: "40px", height: "40px" }}
           onClick={() => {
@@ -52,7 +50,7 @@ function Header() {
         </button>
 
         <button
-          className="btn btn-outline-danger"
+          className="btn btn-outline-danger pl-block-mode"
           onClick={() => {
             logOutAccount();
           }}
