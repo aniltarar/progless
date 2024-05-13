@@ -4,12 +4,13 @@ import requestUtil from '../utils/requestUtil';
 function useCategory() {
     const [categories, setCategories] = useState([])
     const userId = JSON.parse(localStorage.getItem("user")).id;
+    const baseUrl = `/users/${userId}/categories`
     
     /** Kullanıcıya ait olan kategorileri döndürür
      * @returns Kategori verilerileri
      */
     const getCategory = async () => {
-        let _categoryData = (await requestUtil().get(`/users/${userId}/categories`)).data;
+        let _categoryData = (await requestUtil().get(`${baseUrl}`)).data;
         _categoryData.sort((a,b) => a.id - b.id);
         setCategories(_categoryData)
         return _categoryData
@@ -22,7 +23,7 @@ function useCategory() {
      * @returns Eklenen kategori verileri
      */
     const addCategory = async (name, colorHex, imageCode) => {
-        let _categoryData = (await requestUtil().post(`users/${userId}/categories`, { name: name, colorHex: colorHex, imageCode: imageCode })).data;
+        let _categoryData = (await requestUtil().post(`${baseUrl}`, { name: name, colorHex: colorHex, imageCode: imageCode })).data;
         await getCategory()
         return _categoryData
     };
@@ -35,7 +36,7 @@ function useCategory() {
      * @returns Düzenlenen kategorinin son halini döndürür
      */
     const editCategory = async (categoryId, name, colorHex, imageCode) => {
-        let _categoryData = (await requestUtil().put(`users/${userId}/categories/${categoryId}`, { name: name, colorHex: colorHex, imageCode: imageCode })).data;
+        let _categoryData = (await requestUtil().put(`${baseUrl}/${categoryId}`, { name: name, colorHex: colorHex, imageCode: imageCode })).data;
         await getCategory()
         return _categoryData
     };
@@ -45,7 +46,7 @@ function useCategory() {
      * @returns Silinen kategorinin bilgilerini döndürür
      */
     const deleteCategory = async (categoryId) => {
-        let _categoryData = (await requestUtil().delete(`/users/${userId}/categories/${categoryId}`)).data;
+        let _categoryData = (await requestUtil().delete(`${baseUrl}/${categoryId}`)).data;
         await getCategory()
         return _categoryData
     };

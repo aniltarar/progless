@@ -1,12 +1,12 @@
 import React, { Children, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-function PopUp({ children }) {
+function PopUp({ popUpId, children }) {
   return (
     <>
       <div
         className="modal fade"
-        id="pl-PopUp"
+        id={popUpId ?? 'pl-PopUp'}
         data-bs-keyboard="false"
         data-bs-backdrop="static"
         tabIndex="-1"

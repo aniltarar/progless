@@ -5,3 +5,9 @@
 .headerDiv {
     box-shadow: 0px 1px 5px #ccc;
 }
+
+.pl-username:hover {
+    background-color: #ddd;
+    box-shadow: 0px 1px 5px #ddd;
+    cursor: pointer;
+}

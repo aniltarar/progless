@@ -28,25 +28,42 @@ function CategoryPage() {
       />
 
       <div className="container mt-3">
-        <button
-          type="button"
-          className="btn btn-sm btn-primary px-3"
-          data-bs-toggle="modal"
-          data-bs-target="#pl-PopUp"
-          onClick={() => {
-            setIsCategoryEdit(false);
-          }}
-        >
-          + Ekle
-        </button>
+        <div className="d-flex align-items-center gap-3">
+          <div>
+            <h1 className="display-6">Kategorilerim</h1>
+          </div>
+          <div>
+            <button
+              type="button"
+              className="btn btn-sm btn-primary px-3"
+              data-bs-toggle="modal"
+              data-bs-target="#pl-PopUp"
+              onClick={() => {
+                setIsCategoryEdit(false);
+              }}
+            >
+              + Ekle
+            </button>
+          </div>
+        </div>
+        <hr />
 
         <div className="row">
           {categories?.map((category) => {
             return (
               <div key={category.id} className="col-sm-6">
                 <Card
-                  href={`/tasks?categoryId=${category.id}`}
-                  cardTitle={<div className="d-flex align-items-center gap-2">{category.name} {category.imageCode && <Emoji size={25} unified={`${category.imageCode}`} />}</div>}
+                  _onClick={() => {
+                    window.location.href = `/tasks?categoryId=${category.id}`;
+                  }}
+                  cardTitle={
+                    <div className="d-flex align-items-center gap-2">
+                      {category.name}{" "}
+                      {category.imageCode && (
+                        <Emoji size={25} unified={`${category.imageCode}`} />
+                      )}
+                    </div>
+                  }
                   cardContent={`Görev sayısı: ${
                     allData?.tasks.filter(
                       (item) => item.categoryId == category.id
@@ -67,7 +84,9 @@ function CategoryPage() {
                       Düzenle <FaPen />
                     </button>
                   }
-                ></Card>
+                  cardStyle={{ borderColor: category.colorHex, boxShadow: `0px 1px 5px ${category.colorHex}` }}
+                >
+                </Card>
               </div>
             );
           })}

@@ -1,0 +1,20 @@
+.pl-task-range {
+    background: linear-gradient(
+    to right,
+    #00FF00,
+    #FF0000
+  );
+}
+.pl-task-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 2px solid;
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    max-width: 80px;
+    position: relative;
+    background-color: white;
+    cursor: -webkit-grab;
+    -webkit-transition: border 1000ms ease;
+    transition: border 1000ms ease;
+  }
