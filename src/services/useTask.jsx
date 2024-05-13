@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import requestUtil from "../utils/requestUtil";
+import useSubTasks from "./useSubTasks";
 
 function useTask() {
+  const { addSubTasks } = useSubTasks();
+
   const [tasks, setTasks] = useState([]);
   const userId = JSON.parse(localStorage.getItem("user")).id;
   const baseUrl = (categoryId) => `/users/${userId}/categories/${categoryId}/tasks`;
@@ -13,7 +16,7 @@ function useTask() {
     return _taskData;
   };
 
-  const addTask = async (categoryId, name, description, difficulty, endOfDate) => {
+  const addTask = async (categoryId, name, description, difficulty, endOfDate, subTasks = []) => {
     let _taskData = (
       await requestUtil().post(`${baseUrl(categoryId)}`, {
         name: name,
@@ -22,6 +25,9 @@ function useTask() {
         endOfDate: endOfDate,
       })
     ).data;
+    for (let i = 0; i < subTasks.length; i++) {
+      await addSubTasks(categoryId, _taskData.id, subTasks[i]);
+    }
     await getTasks(categoryId);
     return _taskData;
   };

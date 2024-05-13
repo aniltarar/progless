@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import PopUp from "./PopUp";
-import "./PopUp.css";
 import useTask from "../../services/useTask";
 import useCategory from "../../services/useCategory";
+import TagsInput from "react-tagsinput";
+import "react-tagsinput/react-tagsinput.css";
+import "./PopUp.css";
+import useSubTasks from "../../services/useSubTasks";
 
-function TaskPopUp({ categoryId, taskInfo, isEdit, getAllData }) {
+function TaskPopUp({ taskInfo, isEdit, getAllData }) {
   // api servislerinin import edilmesi
   const { addTask, editTask, deleteTask } = useTask();
   const { categories, getCategory } = useCategory();
+  const { subTasks, getSubTasks, addSubTasks, editSubTasks, deleteSubTasks } =
+    useSubTasks();
 
   // form verileri
   const [taskName, setTaskName] = useState(taskInfo?.name ?? "");
@@ -23,14 +28,23 @@ function TaskPopUp({ categoryId, taskInfo, isEdit, getAllData }) {
   const [selectedCategoryId, setSelectedCategoryId] = useState(
     taskInfo?.categoryId ?? categories[0]?.id ?? -1
   );
+  const [taskSubTasks, setTaskSubTasks] = useState([]);
 
   useEffect(() => {
     setTaskName(taskInfo?.name ?? "");
     setTaskDescription(taskInfo?.description ?? "");
     setTaskEndOfDate(taskInfo?.endOfDate ?? dateParse(new Date()));
     setDifficultyRange(taskInfo?.difficulty ?? 1);
-    setSelectedCategoryId(taskInfo?.categoryId ?? categories[0]?.id ?? -1);
-    getCategory();
+
+    if (taskInfo)
+      getSubTasks(taskInfo.categoryId, taskInfo.id).then((result) => {
+        setTaskSubTasks(result.map(item => item.name));
+      });
+    else setTaskSubTasks([]);
+
+    getCategory().then(res => {
+      setSelectedCategoryId(taskInfo?.categoryId ?? res[0].id);
+    })
   }, [taskInfo]);
 
   function dateParse(date) {
@@ -93,6 +107,7 @@ function TaskPopUp({ categoryId, taskInfo, isEdit, getAllData }) {
     setTaskDescription("");
     setTaskEndOfDate(dateParse(new Date()));
     setDifficultyRange(1);
+    setTaskSubTasks([]);
   }
 
   return (
@@ -169,6 +184,22 @@ function TaskPopUp({ categoryId, taskInfo, isEdit, getAllData }) {
               </div>
             </div>
 
+            <div className="row mb-3">
+              <label htmlFor="subTasks" className="col-sm-3 col-form-label">
+                Alt Görevler
+              </label>
+              <div className="col-sm-9 d-flex align-items-center">
+                <TagsInput
+                  id={`subTasks`}
+                  className="form-control me-2"
+                  onChange={(tags) => {
+                    setTaskSubTasks(tags);
+                  }}
+                  value={taskSubTasks}
+                  required
+                />
+              </div>
+            </div>
             <div className="row mb-3">
               <label
                 htmlFor="selectTaskCategory"
@@ -294,7 +325,8 @@ function TaskPopUp({ categoryId, taskInfo, isEdit, getAllData }) {
                       taskName,
                       taskDescription,
                       difficultyRange,
-                      taskEndOfDate
+                      taskEndOfDate,
+                      taskSubTasks
                     ).then(() => {
                       getAllData();
                     });
