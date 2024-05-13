@@ -315,7 +315,8 @@ function TaskPopUp({ taskInfo, isEdit, getAllData }) {
                       taskName,
                       taskDescription,
                       difficultyRange,
-                      taskEndOfDate
+                      taskEndOfDate,
+                      taskSubTasks
                     ).then(() => {
                       getAllData();
                     });
