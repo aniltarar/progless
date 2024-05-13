@@ -5,8 +5,9 @@ import Card from "../../components/Cards/Card";
 import { Emoji } from "emoji-picker-react";
 import { FaPen } from "react-icons/fa";
 import Difficulty from "../../components/Difficulties/Difficulty";
-import TaskPopUp from "../../components/PopUps/TaskPopUp";
+import TaskEditPopUp from "../../components/PopUps/TaskEditPopUp";
 import useTask from "../../services/useTask";
+import TaskDetailPopUp from "../../components/PopUps/TaskDetailPopUp";
 
 function TaskPage() {
   const location = useLocation();
@@ -16,7 +17,7 @@ function TaskPage() {
   const [tasks, setTasks] = useState();
   const [isTaskEdit, setIsTaskEdit] = useState(false);
   const [selectedTask, setSelectedTask] = useState();
-  const { getTasks } = useTask();
+  const [selectedTaskCategory, setSelectedTaskCategory] = useState();
 
   useEffect(() => {
     if (!allData) return;
@@ -27,11 +28,16 @@ function TaskPage() {
 
   return (
     <>
-      <TaskPopUp
+      <TaskEditPopUp
         taskInfo={selectedTask}
         isEdit={isTaskEdit}
         categoryId={categoryId}
         getAllData={getAllData}
+      />
+
+      <TaskDetailPopUp
+        taskInfo={selectedTask}
+        categoryInfo={selectedTaskCategory}
       />
 
       <div className="container pt-3">
@@ -80,7 +86,10 @@ function TaskPage() {
                     </div>
                   }
                   cardContent={
-                    <Difficulty difficultyRate={item.difficulty ?? 1} />
+                    <>
+                      <Difficulty difficultyRate={item.difficulty ?? 1} />{" "}
+                      {item.endOfDate}
+                    </>
                   }
                   topRight={
                     <button
@@ -96,7 +105,26 @@ function TaskPage() {
                       Düzenle <FaPen />
                     </button>
                   }
-                  bottomRight={item.endOfDate}
+                  bottomRight={
+                    <>
+                      <button
+                        className="btn btn-primary mt-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#pl-taskDetail"
+                        onClick={() => {
+                          setSelectedTask(item);
+                          setSelectedTaskCategory(
+                            allData.categories.filter(
+                              (categoryItem) =>
+                                categoryItem.id == item.categoryId
+                            )[0]
+                          );
+                        }}
+                      >
+                        Yapilacaklar
+                      </button>
+                    </>
+                  }
                 />
               </div>
             );

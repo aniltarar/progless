@@ -7,7 +7,7 @@ import "react-tagsinput/react-tagsinput.css";
 import "./PopUp.css";
 import useSubTasks from "../../services/useSubTasks";
 
-function TaskPopUp({ taskInfo, isEdit, getAllData }) {
+function TaskEditPopUp({ taskInfo, isEdit, getAllData }) {
   // api servislerinin import edilmesi
   const { addTask, editTask, deleteTask } = useTask();
   const { categories, getCategory } = useCategory();
@@ -295,7 +295,7 @@ function TaskPopUp({ taskInfo, isEdit, getAllData }) {
           <div className="mt-3 d-flex align-items-center justify-content-between">
             <div>
               <button
-                className="btn btn-danger mx-2"
+                className="btn btn-danger mx-2 pl-block-mode"
                 data-bs-dismiss="modal"
                 onClick={() => {
                   clearTaskInputs();
@@ -305,7 +305,7 @@ function TaskPopUp({ taskInfo, isEdit, getAllData }) {
               </button>
               <button
                 type="submit"
-                className="btn btn-success mx-2"
+                className="btn btn-success mx-2 pl-block-mode"
                 data-bs-dismiss="modal"
                 onClick={() => {
                   if (isEdit) {
@@ -342,7 +342,7 @@ function TaskPopUp({ taskInfo, isEdit, getAllData }) {
             {isEdit && (
               <div>
                 <button
-                  className="btn btn-outline-danger mx-2"
+                  className="btn btn-outline-danger mx-2 pl-block-mode"
                   data-bs-dismiss="modal"
                   onClick={() => {
                     deleteTask(selectedCategoryId, taskInfo.id).then(() => {
@@ -350,7 +350,7 @@ function TaskPopUp({ taskInfo, isEdit, getAllData }) {
                     });
                   }}
                 >
-                  Sil
+                  Görevi Sil
                 </button>
               </div>
             )}
@@ -361,4 +361,4 @@ function TaskPopUp({ taskInfo, isEdit, getAllData }) {
   );
 }
 
-export default TaskPopUp;
+export default TaskEditPopUp;

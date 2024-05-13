@@ -1,0 +1,14 @@
+:root {
+    --pl-bg-color: #FFF;
+    --pl-text-color: #000000;
+}
+
+.theme-dark {
+    --pl-bg-color: #252525;
+    --pl-text-color: #FFFFFF;
+}
+
+body {
+  background-color: var(--pl-bg-color) !important;
+  color: var(--pl-text-color) !important;
+}

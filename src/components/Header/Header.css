@@ -1,5 +1,34 @@
+:root {
+    --pl-bg-color: #FFF;
+    --pl-text-color: #000000;
+
+    --pl-theme-button-bg: #444;
+    --pl-theme-button-bg-hover: #bbb;
+}
+
+body, body * {
+    transition: 100ms ease;
+}
+
+body.theme-dark, body.theme-dark .pl-card, body.theme-dark .modal *:not(.modal-dialog, .pl-block-mode) {
+    --pl-bg-color: #111;
+    --pl-text-color: #FFF;
+    background-color: var(--pl-bg-color) !important;
+    color: var(--pl-text-color) !important;
+    border-color: #FFF !important;
+
+    --pl-theme-button-bg: #bbb;
+    --pl-theme-button-bg-hover: #111;
+}
+.theme-button {
+    background-color: var(--pl-theme-button-bg) !important;
+}
+.theme-button:hover {
+    background-color: var(--pl-theme-button-bg-hover) !important;
+}
+
 #logo {
-    height: 5rem;
+    height: 6rem;
 }
 
 .headerDiv {

@@ -65,6 +65,7 @@ function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
                 onChange={(e) => {
                   setCategoryName(e.target.value);
                 }}
+                required
               />
             </div>
           </div>
@@ -82,6 +83,7 @@ function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
                 onChange={(e) => {
                   setCategoryColor(e.target.value);
                 }}
+                required
               />
             </div>
 
@@ -90,7 +92,7 @@ function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
             </label>
             <div className="col-md-3">
               <button
-                className={`btn ${currentEmoji == null ? "btn-primary" : ""}`}
+                className={`pl-block-mode btn ${currentEmoji == null ? "btn-warning" : ""}`}
                 onClick={() => {
                   setPickerVisible(!pickerVisible);
                 }}
@@ -117,7 +119,7 @@ function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
         <div className="mt-3 d-flex align-items-center justify-content-between">
           <div>
             <button
-              className="btn btn-danger mx-2"
+              className="btn btn-danger mx-2 pl-block-mode"
               data-bs-dismiss="modal"
               onClick={() => {
                 clearCategoryStates();
@@ -126,7 +128,7 @@ function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
               Vazgeç
             </button>
             <button
-              className="btn btn-success mx-2"
+              className="btn btn-success mx-2 pl-block-mode"
               data-bs-dismiss="modal"
               onClick={() => {
                 if (isEdit) {
@@ -157,16 +159,10 @@ function CategoryPopUp({ categoryInfo, setCategoryInfo, isEdit, getCategory }) {
           {isEdit && (
             <div>
               <button
-                className="btn btn-outline-danger mx-2"
+                className="btn btn-outline-danger mx-2 pl-block-mode"
                 data-bs-dismiss="modal"
                 data-bs-toggle="modal"
                 data-bs-target="#pl-confirmPopUp"
-                onClick={() => {
-                  // deleteCategory(categoryInfo.id).then(() => {
-                  //   getCategory();
-                  // });
-                  // clearCategoryStates();
-                }}
               >
                 Sil
               </button>

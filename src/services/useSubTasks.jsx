@@ -16,15 +16,15 @@ function useSubTasks() {
 
   const addSubTasks = async (categoryId, taskId, name) => {
     let subTaskData = (
-      await requestUtil().post(baseUrlFunction(categoryId, taskId), { taskId: taskId, categoryId: categoryId, name: name })
+      await requestUtil().post(baseUrlFunction(categoryId, taskId), { taskId: taskId, categoryId: categoryId, name: name, state: 'LATER' })
     ).data;
     getSubTasks(categoryId, taskId);
     return subTaskData;
   };
 
-  const editSubTasks = async (categoryId, taskId, subTaskId, name) => {
+  const editSubTasks = async (categoryId, taskId, subTaskId, name, state) => {
     let subTaskData = (
-      await requestUtil().patch(`${baseUrlFunction(categoryId, taskId)}/${subTaskId}`, { name: name })
+      await requestUtil().patch(`${baseUrlFunction(categoryId, taskId)}/${subTaskId}`, { name: name, state: state })
     ).data;
     getSubTasks(categoryId, taskId);
     return subTaskData;

@@ -7,13 +7,13 @@ function ConfirmPopUp({ onSuccess, children }) {
       {children}
       <div className="d-flex gap-2 mt-3">
       <button
-          className="btn btn-danger"
+          className="btn btn-danger pl-block-mode"
           data-bs-dismiss="modal"
         >
           İptal
         </button>
         <button
-          className="btn btn-primary"
+          className="btn btn-primary pl-block-mode"
           data-bs-dismiss="modal"
           onClick={onSuccess}
         >

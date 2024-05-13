@@ -6,7 +6,7 @@ function Difficulty({ difficultyRate }) {
 
   return (
     <span
-      className="btn btn-warning text-bold"
+      className="btn text-bold"
       style={{
         backgroundColor: difficultColors[difficultyRate - 1],
         color: "white"

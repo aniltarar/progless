@@ -6,7 +6,7 @@ import React from 'react'
  */
 function RouterButton({ text, url }) {
   return (
-    <a href={url ?? '#'} className='btn btn-outline-secondary'>{text}</a>
+    <a href={url ?? '#'} className='btn btn-lg btn-outline-secondary'>{text}</a>
   )
 }
 
