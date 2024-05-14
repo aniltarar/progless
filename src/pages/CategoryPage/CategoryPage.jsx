@@ -4,13 +4,26 @@ import Card from "../../components/Cards/Card";
 import CategoryPopUp from "../../components/PopUps/CategoryPopUp";
 import useAllData from "../../services/useAllData";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
-import { FaPen } from "react-icons/fa";
+import { FaHeart, FaPen } from "react-icons/fa";
+import { Modal } from "react-bootstrap";
 
 function CategoryPage() {
   const { categories, getCategory } = useCategory(); // useCategory servisinin fonksiyonlarını çekiliyor
   const [isCategoryEdit, setIsCategoryEdit] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState();
   const { allData } = useAllData();
+  const [showCategoryHelper, setShowCategoryHelper] = useState(false);
+  const [showTaskHelper, setShowTaskHelper] = useState(false);
+
+  const handleCloseCategoryHelper = () => setShowCategoryHelper(false);
+  const handleShowCategoryHelper = () => setShowCategoryHelper(true);
+  const handleCloseTaskHelper = () => setShowTaskHelper(false);
+  const handleShowTaskHelper = () => setShowTaskHelper(true);
+
+  useEffect(() => {
+    if (allData?.categories.length == 0) handleShowCategoryHelper();
+    else if (allData?.categories.length >= 1 && allData?.tasks.length == 0) handleShowTaskHelper();
+  }, [allData]);
 
   useEffect(() => {
     getCategory();
@@ -20,6 +33,49 @@ function CategoryPage() {
 
   return (
     <>
+      <Modal centered={true} show={showCategoryHelper} onHide={handleCloseCategoryHelper}>
+        <Modal.Body>
+          <div>
+            <h4 className="text-center">
+              Kategori Sayfasına Hoşgeldiniz.
+            </h4>
+            <hr />
+            <p>
+              Şu anda Kategori sayfasını ziyaret etmektesiniz. Bu sayfa üzerinde
+              mevcut olan kategorilerinizi görüntüleyebilir, yeni kategori ekleyebilir ve mevcut kategorilerinizi
+              düzenleyebilirsiniz. Üzerlerine tıklayıp ilgili kategorinin görevlerine direkt olarak gidebilirsiniz.
+            </p>
+            <p>
+              Kategori eklemek için <span className="btn btn-sm btn-primary disabled">+ Ekle</span> butonuna tıklayın.
+            </p>
+            <div className="d-flex">
+              <button onClick={handleCloseCategoryHelper} className="btn mx-auto btn-primary ">
+                Anladım
+              </button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal centered={true} show={showTaskHelper} onHide={handleCloseTaskHelper}>
+        <Modal.Body>
+          <div>
+            <h4 className="text-center">
+              Tebrikler, ilk kategorinizi eklediniz.
+            </h4>
+            <hr />
+            <p>
+              Sıradaki işlem oluşturduğunuz kategorilere yeni görevler eklemek.
+            </p>
+            <div className="d-flex">
+              <a href="/tasks" className="btn mx-auto btn-primary ">
+                Görevler Sayfasına Git
+              </a>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
       <CategoryPopUp
         categoryInfo={selectedCategory}
         setCategoryInfo={setSelectedCategory}
@@ -84,9 +140,11 @@ function CategoryPage() {
                       Düzenle <FaPen />
                     </button>
                   }
-                  cardStyle={{ borderColor: category.colorHex, boxShadow: `0px 1px 5px ${category.colorHex}` }}
-                >
-                </Card>
+                  cardStyle={{
+                    borderColor: category.colorHex,
+                    boxShadow: `0px 1px 5px ${category.colorHex}`,
+                  }}
+                ></Card>
               </div>
             );
           })}

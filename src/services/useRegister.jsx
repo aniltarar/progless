@@ -5,8 +5,8 @@ import definitions from '../utils/definitons.json'
 function useRegister() {
     const [user, setUser] = useState();
 
-    const register = async () => {
-        const result = await axios.post(`${definitions.BACKEND_URL}/auth/signup`, user)
+    const register = async (_user) => {
+        const result = await axios.post(`${definitions.BACKEND_URL}/auth/signup`, _user ?? user)
         try {
             if (result.status != 200) return false;
         } catch(error) {

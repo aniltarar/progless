@@ -1,26 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import useLogin from "../../services/useLogin";
 import { Link } from "react-router-dom";
+import GoogleLogin from "react-google-login";
+import { gapi } from "gapi-script";
+import useGoogleLogin from "../../services/useGoogleLogin";
+import { FacebookLoginButton } from "react-social-login-buttons";
+import x from 'reactjs-social-login';
 
 function Login() {
-    const {user, setUser, login} = useLogin()
+  const { user, setUser, login } = useLogin();
+  const { googleLogin } = useGoogleLogin();
 
-    function handleFormSubmit (event) {
-        event.preventDefault();  // Formun submit edildiği zaman sayfanın yenilenmesini engeller
+  function handleFormSubmit(event) {
+    event.preventDefault(); // Formun submit edildiği zaman sayfanın yenilenmesini engeller
 
-        console.log(user);
+    console.log(user);
 
-        login().then(res => {
-            if (res) {
-                window.location.href = '/';
-            } else {
-                alert("Böyle bir kullanıcı bulunamadı");
-            }
-        });
-
-    }
-
+    login().then((res) => {
+      if (res) {
+        window.location.href = "/";
+      } else {
+        alert("Böyle bir kullanıcı bulunamadı");
+      }
+    });
+  }
 
   function handleInputChange(event) {
     if (event.target.id == "loginUsernameInput") {
@@ -36,6 +40,27 @@ function Login() {
     }
   }
 
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId:
+          "27535760035-gqnrlpu4a1rbfp36o8gb4odufpab0t4j.apps.googleusercontent.com",
+        scope: "email",
+      });
+    }
+    gapi.load("client:auth2", start);
+  }, []);
+
+  const onSuccess = (response) => {
+    console.log(response.profileObj);
+    googleLogin(response.profileObj).then(() => {
+      window.location.href = "/";
+    });
+  };
+
+  const onFailure = (response) => {
+    console.log("FAILED", response);
+  };
 
   return (
     <>
@@ -80,6 +105,13 @@ function Login() {
               <button type="submit" className="btn btn-primary w-100 mt-2">
                 Giriş Yap
               </button>
+              <GoogleLogin
+                clientId={
+                  "27535760035-gqnrlpu4a1rbfp36o8gb4odufpab0t4j.apps.googleusercontent.com"
+                }
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+              />
             </form>
 
             <span className="mt-3">

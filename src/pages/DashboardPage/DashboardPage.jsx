@@ -23,11 +23,19 @@ function DashboardPage() {
   };
 
   const getTaskPercent = (categoryId, taskId, state) => {
-    let allSubTasks = allData?.subtasks.filter(subTaskItem => subTaskItem.categoryId == categoryId && subTaskItem.taskId == taskId) ?? [];
-    let value = parseInt((allSubTasks.filter(subTaskItem => subTaskItem.state == state).length / allSubTasks.length)*100);
+    let allSubTasks =
+      allData?.subtasks.filter(
+        (subTaskItem) =>
+          subTaskItem.categoryId == categoryId && subTaskItem.taskId == taskId
+      ) ?? [];
+    let value = parseInt(
+      (allSubTasks.filter((subTaskItem) => subTaskItem.state == state).length /
+        allSubTasks.length) *
+        100
+    );
     console.log(allSubTasks);
     console.log(value);
-    return value
+    return value;
   };
 
   return (
@@ -38,7 +46,9 @@ function DashboardPage() {
             title={"Tüm Kategoriler"}
             isBlock={true}
             style={{
-              ...( localStorage.getItem("theme") == 'dark'  ? { backgroundColor: "#cdcdcd" } : {}),
+              ...(localStorage.getItem("theme") == "dark"
+                ? { backgroundColor: "#cdcdcd" }
+                : {}),
               ...{ paddingLeft: "25%", paddingRight: "25%" },
             }}
           >
@@ -98,34 +108,61 @@ function DashboardPage() {
         </ChartCard>
 
         <ChartCard title={"Görev İlerlemeleri"}>
-            <div className="row">
-            {
-                allData?.categories.map(categoryItem => {
-                    return (
-                        <div key={categoryItem.id} className="col-xl-6">
-                            <ChartCard title={categoryItem.name}>
-                            {
-                                allData.tasks.filter(taskItem => taskItem.categoryId == categoryItem.id).map(taskItem => {
-                                    return (
-                                        <ChartCard key={taskItem.id} title={taskItem.name} isBlock={true}
-                                            style={
-                                            localStorage.getItem("theme") == "dark"
-                                                ? { backgroundColor: "#cdcdcd" }
-                                                : {}
-                                            }>
-                                                <div className="" style={{ backgroundColor: '#cdcdcd' }}>
-                                                    <div className="text-center" style={{ borderTopRightRadius: ".5rem", borderBottomRightRadius: '.5rem',width: `${getTaskPercent(categoryItem.id, taskItem.id, 'SUCCESS')}%`, backgroundColor: 'hsl(210, 35%, 9%)', color: 'white' }}>{getTaskPercent(categoryItem.id, taskItem.id, 'SUCCESS')}%</div>
-                                                </div>
-                                        </ChartCard>
-                                    );
-                                })
+          <div className="row">
+            {allData?.categories.map((categoryItem) => {
+              return (
+                <div key={categoryItem.id} className="col-xl-6">
+                  <ChartCard title={categoryItem.name}>
+                    {allData.tasks
+                      .filter(
+                        (taskItem) => taskItem.categoryId == categoryItem.id
+                      )
+                      .map((taskItem) => {
+                        return (
+                          <ChartCard
+                            key={taskItem.id}
+                            title={taskItem.name}
+                            isBlock={true}
+                            style={
+                              localStorage.getItem("theme") == "dark"
+                                ? { backgroundColor: "#cdcdcd" }
+                                : {}
                             }
-                            </ChartCard>
-                        </div>
-                    );
-                })
-            }
-            </div>
+                          >
+                            <div
+                              className=""
+                              style={{ backgroundColor: "#cdcdcd" }}
+                            >
+                              <div
+                                className="text-center"
+                                style={{
+                                  borderTopRightRadius: ".5rem",
+                                  borderBottomRightRadius: ".5rem",
+                                  width: `${getTaskPercent(
+                                    categoryItem.id,
+                                    taskItem.id,
+                                    "SUCCESS"
+                                  )}%`,
+                                  backgroundColor: "hsl(210, 35%, 9%)",
+                                  color: "white",
+                                }}
+                              >
+                                {getTaskPercent(
+                                  categoryItem.id,
+                                  taskItem.id,
+                                  "SUCCESS"
+                                )}
+                                %
+                              </div>
+                            </div>
+                          </ChartCard>
+                        );
+                      })}
+                  </ChartCard>
+                </div>
+              );
+            })}
+          </div>
         </ChartCard>
       </div>
     </>

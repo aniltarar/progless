@@ -8,6 +8,7 @@ import Difficulty from "../../components/Difficulties/Difficulty";
 import TaskEditPopUp from "../../components/PopUps/TaskEditPopUp";
 import useTask from "../../services/useTask";
 import TaskDetailPopUp from "../../components/PopUps/TaskDetailPopUp";
+import { Modal } from "react-bootstrap";
 
 function TaskPage() {
   const location = useLocation();
@@ -18,16 +19,83 @@ function TaskPage() {
   const [isTaskEdit, setIsTaskEdit] = useState(false);
   const [selectedTask, setSelectedTask] = useState();
   const [selectedTaskCategory, setSelectedTaskCategory] = useState();
+  const [showTaskHelper, setShowTaskHelper] = useState(false);
+  const [showProcessHelper, setShowProcessHelper] = useState(false);
+
+  const handleCloseTaskHelper = () => setShowTaskHelper(false);
+  const handleShowTaskHelper = () => setShowTaskHelper(true);
+  const handleCloseProcessHelper = () => setShowProcessHelper(false);
+  const handleShowProcessHelper = () => setShowProcessHelper(true);
 
   useEffect(() => {
     if (!allData) return;
     if (categoryId)
       setTasks(allData.tasks.filter((item) => item.categoryId == categoryId));
     else setTasks(allData.tasks);
+
+    if (allData?.tasks.length == 0) handleShowTaskHelper();
+    if (allData?.tasks.length == 1) handleShowProcessHelper();
   }, [allData]);
 
   return (
     <>
+      <Modal
+        centered={true}
+        show={showTaskHelper}
+        onHide={handleCloseTaskHelper}
+      >
+        <Modal.Body>
+          <div>
+            <h4 className="text-center">
+              Görevler sayfasına hoşgeldiniz.
+            </h4>
+            <hr />
+            <p>
+              Sıradaki işlem oluşturduğunuz kategorilere yeni görevler eklemek.
+            </p>
+            <p>
+              Görev eklemek için{" "}
+              <span className="btn btn-sm btn-primary disabled">+ Ekle</span>{" "}
+              butonuna tıklayın.
+            </p>
+            <div className="d-flex">
+              <button
+                onClick={handleCloseTaskHelper}
+                className="btn mx-auto btn-primary "
+              >
+                Anladım
+              </button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        centered={true}
+        show={showProcessHelper}
+        onHide={handleCloseProcessHelper}
+      >
+        <Modal.Body>
+          <div>
+            <h4 className="text-center">
+              Tebrikler, ilk görevinizi eklediniz.
+            </h4>
+            <hr />
+            <p>
+              Yaptığınız işlemleri görmek için <a className="text-decoration-none" href="/dashboard">Süreç Takibi</a> sayfasına gidebilirsiniz.
+            </p>
+            <div className="d-flex">
+              <button
+                onClick={handleCloseProcessHelper}
+                className="btn mx-auto btn-primary "
+              >
+                Anladım
+              </button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
       <TaskEditPopUp
         taskInfo={selectedTask}
         isEdit={isTaskEdit}
@@ -48,7 +116,7 @@ function TaskPage() {
           <div>
             <button
               type="button"
-              className="btn btn-sm btn-primary px-3"
+              className="btn btn-sm btn-primary px-3 pl-block-mode"
               data-bs-toggle="modal"
               data-bs-target="#pl-PopUp"
               onClick={() => {
@@ -64,7 +132,7 @@ function TaskPage() {
         <div className="row">
           {tasks?.map((item, i) => {
             return (
-              <div key={i} className="col-md-6">
+              <div key={i} className="col-lg-6">
                 <Card
                   cardTitle={
                     <div className="d-flex align-items-center">
@@ -93,7 +161,7 @@ function TaskPage() {
                   }
                   topRight={
                     <button
-                      className="btn btn-sm btn-warning pl-hided d-flex gap-2 align-items-center"
+                      className="btn btn-warning pl-hided d-flex gap-2 align-items-center pl-block-mode"
                       data-bs-toggle="modal"
                       data-bs-target="#pl-PopUp"
                       onClick={(e) => {
@@ -108,7 +176,7 @@ function TaskPage() {
                   bottomRight={
                     <>
                       <button
-                        className="btn btn-primary mt-1"
+                        className="btn btn-primary mt-1 pl-block-mode"
                         data-bs-toggle="modal"
                         data-bs-target="#pl-taskDetail"
                         onClick={() => {
@@ -121,7 +189,7 @@ function TaskPage() {
                           );
                         }}
                       >
-                        Yapilacaklar
+                        Yapılacaklar
                       </button>
                     </>
                   }

@@ -5,13 +5,54 @@ import useCategory from "../../services/useCategory";
 import Card from "../../components/Cards/Card";
 import Difficulty from "../../components/Difficulties/Difficulty";
 import { Emoji } from "emoji-picker-react";
+import { Modal } from "react-bootstrap";
+import {
+  FaHandHoldingHeart,
+  FaHandMiddleFinger,
+  FaHands,
+  FaHeart,
+} from "react-icons/fa";
 
 // Home sayfasındaki genel kapsayıcı alan.
 function HomeDashboard() {
   const { allData, getAllData } = useAllData();
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    if (allData?.categories.length == 0) handleShow();
+  }, [allData]);
 
   return (
     <>
+      <Modal centered={true} show={show} onHide={handleClose}>
+        <Modal.Body>
+          <div>
+            <h4 className="text-center">
+              Progless Uygulamasına Hoşgeldiniz. <FaHeart color="red" />
+            </h4>
+            <hr />
+            <p >
+              Şu anda Ana sayfayı ziyaret etmektesiniz. Bu sayfa üzerinde mevcut
+              olan kategorilerinizi ve görevlerinizi görebilirsiniz. Üzerlerine
+              tıklayıp ilgili görev veya kategoriye direkt olarak
+              gidebilirsiniz.
+            </p>
+            <p>
+              Kategori sayfasına gitmek için aşağıdaki butona
+              tıklayın.
+            </p>
+            <div className="d-flex">
+              <a href="/categories" className="btn mx-auto btn-primary ">
+                Kategori Sayfasına Git
+              </a>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
       <div className="container">
         <div className="row">
           <div className="col-sm-8">

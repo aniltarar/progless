@@ -6,10 +6,11 @@ function Difficulty({ difficultyRate }) {
 
   return (
     <span
-      className="btn text-bold"
+      className="btn text-bold pl-block-mode"
       style={{
         backgroundColor: difficultColors[difficultyRate - 1],
-        color: "white"
+        color: "white",
+        width: '7rem'
       }}
     >
       {difficultNames[difficultyRate - 1]}

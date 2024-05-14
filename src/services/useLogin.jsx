@@ -5,8 +5,8 @@ import definitons from '../utils/definitons.json'
 function useLogin() {
     const [user, setUser] = useState({ username: '', password: '' });
 
-    const login = async () => {
-        const result = await axios.post(`${definitons.BACKEND_URL}/auth/signin`, user)
+    const login = async (_user) => {
+        const result = await axios.post(`${definitons.BACKEND_URL}/auth/signin`, _user ?? user)
         try {
             if (result.status == 401) return false;
             localStorage.setItem("token", result.headers["authorization"])
