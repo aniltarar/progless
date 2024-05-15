@@ -5,17 +5,13 @@ import { Link } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 import { gapi } from "gapi-script";
 import useGoogleLogin from "../../services/useGoogleLogin";
-import { FacebookLoginButton } from "react-social-login-buttons";
-import x from 'reactjs-social-login';
 
 function Login() {
   const { user, setUser, login } = useLogin();
   const { googleLogin } = useGoogleLogin();
 
   function handleFormSubmit(event) {
-    event.preventDefault(); // Formun submit edildiği zaman sayfanın yenilenmesini engeller
-
-    console.log(user);
+    event.preventDefault(); // Formun submit edildiği zaman sayfanın yenilenmesini engeller.
 
     login().then((res) => {
       if (res) {
@@ -23,7 +19,7 @@ function Login() {
       } else {
         alert("Böyle bir kullanıcı bulunamadı");
       }
-    });
+    }); // Kullanıcı bulunmazsa gösterilecek alert.
   }
 
   function handleInputChange(event) {
@@ -40,6 +36,18 @@ function Login() {
     }
   }
 
+  
+  const onSuccess = (response) => {
+    console.log(response.profileObj);
+    googleLogin(response.profileObj).then(() => {
+      window.location.href = "/";
+    });
+  };
+  
+  const onFailure = (response) => {
+    console.log("FAILED", response);
+  };
+  
   useEffect(() => {
     function start() {
       gapi.client.init({
@@ -50,18 +58,7 @@ function Login() {
     }
     gapi.load("client:auth2", start);
   }, []);
-
-  const onSuccess = (response) => {
-    console.log(response.profileObj);
-    googleLogin(response.profileObj).then(() => {
-      window.location.href = "/";
-    });
-  };
-
-  const onFailure = (response) => {
-    console.log("FAILED", response);
-  };
-
+  
   return (
     <>
       <div
@@ -70,6 +67,7 @@ function Login() {
       >
         <div className="container">
           <div className="row border rounded p-5 shadow col-sm-12 col-md-9 col-lg-6 mx-auto">
+            <img src="src/assets/images/logo.png" width="100px"  alt="Progles Gelişim Takip Uygulaması" />
             <h1 className="text-center">Giriş Yap</h1>
 
             <hr />
@@ -109,6 +107,7 @@ function Login() {
                 clientId={
                   "27535760035-gqnrlpu4a1rbfp36o8gb4odufpab0t4j.apps.googleusercontent.com"
                 }
+                className="w-100 mt-3 text-center border border-1 rounded"
                 onSuccess={onSuccess}
                 onFailure={onFailure}
               />

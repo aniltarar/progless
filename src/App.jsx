@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import BaseLayout from "./layouts/baseLayout/BaseLayout";
 import HomeDashboard from "./pages/HomeDashboard/HomeDashboard";
@@ -15,12 +14,11 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          
           <Route path="/" element={<BaseLayout />}>
             <Route index={true} element={<HomeDashboard />} />
             <Route path="categories" element={<CategoryPage />} />
             <Route path="tasks" element={<TaskPage />} />
-            <Route  path="dashboard" element={<DashboardPage />} />
+            <Route path="dashboard" element={<DashboardPage />} />
           </Route>
         </Routes>
       </Router>

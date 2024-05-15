@@ -2,12 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PhoneInput from "react-phone-number-input";
 import useRegister from "../../services/useRegister";
-// import { inputControl } from "./FormControl";
 import "./AuthPage.css";
 import "react-phone-number-input/style.css";
 
 function Register() {
-  const { user, setUser, register } = useRegister();
+  const { user, setUser, register } = useRegister(); // Kayıt olma servisini çağırır.
 
   function handleFormSubmit(event) {
     event.preventDefault(); // Formun submit edildiği zaman sayfanın yenilenmesini engeller

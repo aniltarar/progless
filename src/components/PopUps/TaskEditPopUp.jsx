@@ -26,7 +26,7 @@ function TaskEditPopUp({ taskInfo, isEdit, getAllData }) {
     taskInfo?.difficulty ?? 1
   );
   const [selectedCategoryId, setSelectedCategoryId] = useState(
-    taskInfo?.categoryId ?? categories[0]?.id ?? -1
+    taskInfo?.categoryId ?? (categories && categories[0]?.id) ?? -1
   );
   const [taskSubTasks, setTaskSubTasks] = useState([]);
 

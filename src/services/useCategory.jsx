@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import requestUtil from '../utils/requestUtil';
 
 function useCategory() {
-    const [categories, setCategories] = useState([])
+    const [categories, setCategories] = useState()
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const baseUrl = `/users/${userId}/categories`
     

@@ -3,33 +3,35 @@ import useCategory from "../../services/useCategory";
 import Card from "../../components/Cards/Card";
 import CategoryPopUp from "../../components/PopUps/CategoryPopUp";
 import useAllData from "../../services/useAllData";
-import EmojiPicker, { Emoji } from "emoji-picker-react";
-import { FaHeart, FaPen } from "react-icons/fa";
+import { Emoji } from "emoji-picker-react";
+import {  FaPen } from "react-icons/fa";
 import { Modal } from "react-bootstrap";
 
 function CategoryPage() {
   const { categories, getCategory } = useCategory(); // useCategory servisinin fonksiyonlarını çekiliyor
-  const [isCategoryEdit, setIsCategoryEdit] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState();
-  const { allData } = useAllData();
-  const [showCategoryHelper, setShowCategoryHelper] = useState(false);
-  const [showTaskHelper, setShowTaskHelper] = useState(false);
+  const { allData } = useAllData(); // Tüm dataları çeker
+  const [isCategoryEdit, setIsCategoryEdit] = useState(false); // Kategori Edit PopUp ' ını kontrol eden state.
+  const [selectedCategory, setSelectedCategory] = useState(); // Seçilen Kategorinin Bilgilerini tutan state.
+  const [showCategoryHelper, setShowCategoryHelper] = useState(false); // Wizard'ı çalıştırdığımız kısım.
+  const [showTaskHelper, setShowTaskHelper] = useState(false); // Wizard'ı çalıştırdığımız ikinci kısım
 
+  //Wizard PopUp Fonksiyonları
   const handleCloseCategoryHelper = () => setShowCategoryHelper(false);
   const handleShowCategoryHelper = () => setShowCategoryHelper(true);
   const handleCloseTaskHelper = () => setShowTaskHelper(false);
   const handleShowTaskHelper = () => setShowTaskHelper(true);
 
+  //Sayfada renderlanacak kısımlar ve hangi koşulda renderlanacağı
   useEffect(() => {
-    if (allData?.categories.length == 0) handleShowCategoryHelper();
-    else if (allData?.categories.length >= 1 && allData?.tasks.length == 0) handleShowTaskHelper();
-  }, [allData]);
+    if (categories?.length == 0) handleShowCategoryHelper();
+    else if (categories?.length >= 1 && allData?.tasks.length == 0) handleShowTaskHelper();
+  }, [allData, categories]);
 
+  //Sayfa ilk açıldığında getCategory çalıştır.
   useEffect(() => {
     getCategory();
   }, []);
 
-  // popup un içeriği yapılacak
 
   return (
     <>
